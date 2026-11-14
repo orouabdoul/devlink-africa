@@ -1,8 +1,12 @@
 # DevLink Africa
 
+[![Tests](https://github.com/orouabdoul/devlink-africa/actions/workflows/tests.yml/badge.svg)](https://github.com/orouabdoul/devlink-africa/actions/workflows/tests.yml)
+
 **Connect. Share. Build together.**
 
 La plateforme communautaire qui connecte les développeurs africains autour du partage de connaissances, de la résolution de problèmes techniques et de la collaboration. Projet présenté à la **CADEV 2026**.
+
+![Fil d'actualité DevLink Africa](docs/captures/03-fil.png)
 
 > Notre promesse : ne plus perdre les bonnes réponses techniques dans des centaines de messages WhatsApp.
 
@@ -78,7 +82,7 @@ Avec `DEVLINK_SHOW_DEMO=true` dans `.env`, la page de connexion affiche un bouto
 php artisan test
 ```
 
-38 tests automatisés couvrent la checklist de soumission (inscription, profil, publication, catégories, commentaires, likes, autorisations, recherche, sécurité du Markdown).
+39 tests automatisés couvrent la checklist de soumission (inscription, profil, publication, catégories, commentaires, likes, autorisations, recherche, sécurité du Markdown).
 
 ## Mise en ligne (hébergement mutualisé type cPanel)
 

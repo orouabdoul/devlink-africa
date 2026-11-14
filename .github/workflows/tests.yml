@@ -2,46 +2,41 @@ name: Tests
 
 on:
   push:
-    branches:
-      - master
-      - '*.x'
+    branches: [main]
   pull_request:
-  schedule:
-    - cron: '0 0 * * *'
-
-permissions:
-  contents: read
 
 jobs:
   tests:
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: true
-      matrix:
-        php: [8.2, 8.3, 8.4]
-
-    name: PHP ${{ matrix.php }}
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
-      - name: Setup PHP
+      - name: PHP 8.2
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+          php-version: '8.2'
+          extensions: mbstring, pdo_sqlite, fileinfo, gd
           coverage: none
 
-      - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
 
-      - name: Copy environment file
-        run: cp .env.example .env
+      - name: Dépendances PHP
+        run: composer install --no-interaction --prefer-dist --no-progress
 
-      - name: Generate app key
-        run: php artisan key:generate
+      - name: Dépendances et compilation de l'interface
+        run: |
+          npm ci
+          npm run build
 
-      - name: Execute tests
+      - name: Configuration
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Lancer les tests
         run: php artisan test
