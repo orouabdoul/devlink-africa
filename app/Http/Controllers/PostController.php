@@ -41,7 +41,7 @@ class PostController extends Controller
     {
         $post = $request->user()->posts()->create($request->validated());
 
-        return redirect()->route('posts.show', $post)->with('success', 'Votre publication est en ligne.');
+        return redirect()->route('posts.show', $post)->with('success', __('Votre publication est en ligne.'));
     }
 
     public function show(Request $request, Post $post): Response
@@ -99,7 +99,7 @@ class PostController extends Controller
 
         $post->update($request->validated());
 
-        return redirect()->route('posts.show', $post)->with('success', 'Publication mise à jour.');
+        return redirect()->route('posts.show', $post)->with('success', __('Publication mise à jour.'));
     }
 
     public function destroy(Post $post): RedirectResponse
@@ -108,6 +108,6 @@ class PostController extends Controller
 
         $post->delete();
 
-        return redirect()->route('posts.mine')->with('success', 'Publication supprimée.');
+        return redirect()->route('posts.mine')->with('success', __('Publication supprimée.'));
     }
 }

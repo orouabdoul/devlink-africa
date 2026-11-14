@@ -19,15 +19,15 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Confirmation" />
+        <Head :title="$t(`Confirmation`)" />
 
         <div class="mb-4 text-sm text-muted">
-            Zone sécurisée : confirmez votre mot de passe pour continuer.
+            {{ $t('Zone sécurisée : confirmez votre mot de passe pour continuer.') }}
         </div>
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="password" value="Mot de passe" />
+                <InputLabel for="password" :value="$t(`Mot de passe`)" />
                 <TextInput
                     id="password"
                     type="password"
@@ -46,7 +46,7 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Confirmer
+                    {{ $t('Confirmer') }}
                 </PrimaryButton>
             </div>
         </form>

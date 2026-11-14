@@ -42,34 +42,32 @@ const closeModal = () => {
     <section class="space-y-6">
         <header>
             <h2 class="text-lg font-medium text-night">
-                Supprimer le compte
+                {{ $t('Supprimer le compte') }}
             </h2>
 
             <p class="mt-1 text-sm text-muted">
-                La suppression est définitive : votre profil, vos publications et
-                vos réponses seront effacés.
+                {{ $t('La suppression est définitive : votre profil, vos publications et vos réponses seront effacés.') }}
             </p>
         </header>
 
-        <DangerButton @click="confirmUserDeletion">Supprimer mon compte</DangerButton>
+        <DangerButton @click="confirmUserDeletion">{{ $t('Supprimer mon compte') }}</DangerButton>
 
         <Modal :show="confirmingUserDeletion" @close="closeModal">
             <div class="p-6">
                 <h2
                     class="text-lg font-medium text-night"
                 >
-                    Voulez-vous vraiment supprimer votre compte ?
+                    {{ $t('Voulez-vous vraiment supprimer votre compte ?') }}
                 </h2>
 
                 <p class="mt-1 text-sm text-muted">
-                    Toutes vos données seront définitivement supprimées. Saisissez
-                    votre mot de passe pour confirmer.
+                    {{ $t('Toutes vos données seront définitivement supprimées. Saisissez votre mot de passe pour confirmer.') }}
                 </p>
 
                 <div class="mt-6">
                     <InputLabel
                         for="password"
-                        value="Mot de passe"
+                        :value="$t(`Mot de passe`)"
                         class="sr-only"
                     />
 
@@ -79,7 +77,7 @@ const closeModal = () => {
                         v-model="form.password"
                         type="password"
                         class="mt-1 block w-3/4"
-                        placeholder="Mot de passe"
+                        :placeholder="$t(`Mot de passe`)"
                         @keyup.enter="deleteUser"
                     />
 
@@ -88,7 +86,7 @@ const closeModal = () => {
 
                 <div class="mt-6 flex justify-end">
                     <SecondaryButton @click="closeModal">
-                        Annuler
+                        {{ $t('Annuler') }}
                     </SecondaryButton>
 
                     <DangerButton
@@ -97,7 +95,7 @@ const closeModal = () => {
                         :disabled="form.processing"
                         @click="deleteUser"
                     >
-                        Supprimer le compte
+                        {{ $t('Supprimer le compte') }}
                     </DangerButton>
                 </div>
             </div>

@@ -16,7 +16,7 @@ class CommentController extends Controller
         $comment->user()->associate($request->user());
         $post->comments()->save($comment);
 
-        return back()->with('success', 'Réponse publiée.');
+        return back()->with('success', __('Réponse publiée.'));
     }
 
     public function update(StoreCommentRequest $request, Comment $comment): RedirectResponse
@@ -25,7 +25,7 @@ class CommentController extends Controller
 
         $comment->update($request->validated());
 
-        return back()->with('success', 'Réponse modifiée.');
+        return back()->with('success', __('Réponse modifiée.'));
     }
 
     public function destroy(Comment $comment): RedirectResponse
@@ -34,6 +34,6 @@ class CommentController extends Controller
 
         $comment->delete();
 
-        return back()->with('success', 'Réponse supprimée.');
+        return back()->with('success', __('Réponse supprimée.'));
     }
 }

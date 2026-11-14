@@ -37,17 +37,17 @@ const updatePassword = () => {
     <section>
         <header>
             <h2 class="text-lg font-medium text-night">
-                Mot de passe
+                {{ $t('Mot de passe') }}
             </h2>
 
             <p class="mt-1 text-sm text-muted">
-                Utilisez un mot de passe long et unique pour sécuriser votre compte.
+                {{ $t('Utilisez un mot de passe long et unique pour sécuriser votre compte.') }}
             </p>
         </header>
 
         <form @submit.prevent="updatePassword" class="mt-6 space-y-6">
             <div>
-                <InputLabel for="current_password" value="Mot de passe actuel" />
+                <InputLabel for="current_password" :value="$t(`Mot de passe actuel`)" />
 
                 <TextInput
                     id="current_password"
@@ -65,7 +65,7 @@ const updatePassword = () => {
             </div>
 
             <div>
-                <InputLabel for="password" value="Nouveau mot de passe" />
+                <InputLabel for="password" :value="$t(`Nouveau mot de passe`)" />
 
                 <TextInput
                     id="password"
@@ -82,7 +82,7 @@ const updatePassword = () => {
             <div>
                 <InputLabel
                     for="password_confirmation"
-                    value="Confirmer le mot de passe"
+                    :value="$t(`Confirmer le mot de passe`)"
                 />
 
                 <TextInput
@@ -100,7 +100,7 @@ const updatePassword = () => {
             </div>
 
             <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Enregistrer</PrimaryButton>
+                <PrimaryButton :disabled="form.processing">{{ $t('Enregistrer') }}</PrimaryButton>
 
                 <Transition
                     enter-active-class="transition ease-in-out"
@@ -112,7 +112,7 @@ const updatePassword = () => {
                         v-if="form.recentlySuccessful"
                         class="text-sm text-muted"
                     >
-                        Enregistré.
+                        {{ $t('Enregistré.') }}
                     </p>
                 </Transition>
             </div>

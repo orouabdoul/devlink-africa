@@ -27,6 +27,6 @@ class DeveloperProfileController extends Controller
 
         $profile->update($data);
 
-        return back()->with('success', 'Profil développeur mis à jour.');
+        return back()->with('success', __('Profil développeur mis à jour.'));
     }
 }

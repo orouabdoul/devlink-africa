@@ -11,18 +11,18 @@ const submit = () => form.post(route('posts.store'));
 </script>
 
 <template>
-    <Head title="Nouvelle publication" />
+    <Head :title="$t(`Nouvelle publication`)" />
 
     <AuthenticatedLayout>
         <div class="mx-auto max-w-3xl space-y-5">
-            <Link :href="route('dashboard')" class="inline-flex items-center gap-1 text-sm font-semibold text-muted hover:text-night"><ArrowLeft class="h-4 w-4" /> Retour au fil</Link>
+            <Link :href="route('dashboard')" class="inline-flex items-center gap-1 text-sm font-semibold text-muted hover:text-night"><ArrowLeft class="h-4 w-4" /> {{ $t('Retour au fil') }}</Link>
             <div>
-                <h1 class="text-2xl font-extrabold text-night">Nouvelle publication</h1>
-                <p class="text-sm text-muted">Un bon titre et un contexte clair attirent de meilleures réponses.</p>
+                <h1 class="text-2xl font-extrabold text-night">{{ $t('Nouvelle publication') }}</h1>
+                <p class="text-sm text-muted">{{ $t('Un bon titre et un contexte clair attirent de meilleures réponses.') }}</p>
             </div>
-            <PostForm :form="form" :categories="categories" :types="types" submit-label="Publier" @submit="submit">
+            <PostForm :form="form" :categories="categories" :types="types" :submit-label="$t(`Publier`)" @submit="submit">
                 <template #secondary>
-                    <Link :href="route('dashboard')" class="btn-secondary">Annuler</Link>
+                    <Link :href="route('dashboard')" class="btn-secondary">{{ $t('Annuler') }}</Link>
                 </template>
             </PostForm>
         </div>

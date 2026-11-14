@@ -6,6 +6,7 @@ import AppLogo from '@/Components/AppLogo.vue';
 import UserAvatar from '@/Components/UserAvatar.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import FlashToast from '@/Components/FlashToast.vue';
+import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 
 defineProps({ wide: { type: Boolean, default: false } });
 
@@ -38,7 +39,7 @@ function search() {
         <!-- Barre supérieure -->
         <header class="sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur">
             <div class="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6">
-                <Link :href="route('dashboard')" class="shrink-0" aria-label="Accueil DevLink Africa">
+                <Link :href="route('dashboard')" class="shrink-0" :aria-label="$t(`Accueil DevLink Africa`)">
                     <AppLogo class="hidden sm:inline-flex" />
                     <AppLogo compact class="sm:hidden" />
                 </Link>
@@ -48,20 +49,21 @@ function search() {
                     <input
                         v-model="q"
                         type="search"
-                        placeholder="Rechercher une discussion, une techno…"
+                        :placeholder="$t(`Rechercher une discussion, une techno…`)"
                         class="w-full rounded-xl border-slate-200 bg-slate-50 py-2 pl-9 text-sm focus:border-brand-500 focus:bg-white focus:ring-brand-500"
-                        aria-label="Rechercher"
+                        :aria-label="$t(`Rechercher`)"
                     />
                 </form>
 
                 <div class="ml-auto flex items-center gap-2">
+                    <LanguageSwitcher />
                     <Link :href="route('posts.create')" class="btn-primary hidden !py-2 sm:inline-flex">
-                        <Plus class="h-4 w-4" /> Publier
+                        <Plus class="h-4 w-4" /> {{ $t('Publier') }}
                     </Link>
 
                     <Dropdown align="right" width="48">
                         <template #trigger>
-                            <button class="flex items-center rounded-full focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2" aria-label="Menu du compte">
+                            <button class="flex items-center rounded-full focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2" :aria-label="$t(`Menu du compte`)">
                                 <UserAvatar :user="user" size="sm" />
                             </button>
                         </template>
@@ -71,13 +73,13 @@ function search() {
                                 <p class="truncate text-xs text-muted">{{ user.email }}</p>
                             </div>
                             <Link :href="route('developers.show', user.id)" class="flex items-center gap-2 px-4 py-2 text-sm text-night hover:bg-slate-50">
-                                <UserRound class="h-4 w-4" /> Mon profil public
+                                <UserRound class="h-4 w-4" /> {{ $t('Mon profil public') }}
                             </Link>
                             <Link :href="route('profile.edit')" class="flex items-center gap-2 px-4 py-2 text-sm text-night hover:bg-slate-50">
-                                <Settings class="h-4 w-4" /> Modifier mon profil
+                                <Settings class="h-4 w-4" /> {{ $t('Modifier mon profil') }}
                             </Link>
                             <Link :href="route('logout')" method="post" as="button" class="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-rose-600 hover:bg-rose-50">
-                                <LogOut class="h-4 w-4" /> Déconnexion
+                                <LogOut class="h-4 w-4" /> {{ $t('Déconnexion') }}
                             </Link>
                         </template>
                     </Dropdown>
@@ -97,14 +99,14 @@ function search() {
                         :class="item.active ? 'bg-brand-600 text-white shadow-sm' : 'text-slate-600 hover:bg-white hover:text-night'"
                     >
                         <component :is="item.icon" class="h-5 w-5" />
-                        {{ item.label }}
+                        {{ $t(item.label) }}
                     </Link>
                 </nav>
                 <div class="mt-6 rounded-2xl bg-night p-4 text-white">
-                    <p class="text-sm font-bold">Une question bloquante ?</p>
-                    <p class="mt-1 text-xs text-slate-300">La communauté est là pour vous aider.</p>
+                    <p class="text-sm font-bold">{{ $t('Une question bloquante ?') }}</p>
+                    <p class="mt-1 text-xs text-slate-300">{{ $t('La communauté est là pour vous aider.') }}</p>
                     <Link :href="route('posts.create', { type: 'question' })" class="mt-3 inline-flex w-full items-center justify-center gap-1 rounded-lg bg-brand-600 px-3 py-2 text-xs font-bold hover:bg-brand-700">
-                        <Plus class="h-3.5 w-3.5" /> Poser une question
+                        <Plus class="h-3.5 w-3.5" /> {{ $t('Poser une question') }}
                     </Link>
                 </div>
             </aside>
@@ -130,11 +132,11 @@ function search() {
                 :class="item.active ? 'text-brand-600' : 'text-slate-500'"
             >
                 <component :is="item.icon" class="h-5 w-5" />
-                {{ item.short ?? item.label }}
+                {{ $t(item.short ?? item.label) }}
             </Link>
         </nav>
 
-        <Link :href="route('posts.create')" class="fixed bottom-20 right-4 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-brand-600 text-white shadow-lg sm:hidden" aria-label="Publier">
+        <Link :href="route('posts.create')" class="fixed bottom-20 right-4 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-brand-600 text-white shadow-lg sm:hidden" :aria-label="$t(`Publier`)">
             <Plus class="h-6 w-6" />
         </Link>
 

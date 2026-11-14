@@ -15,13 +15,13 @@ function apply(changes) {
 </script>
 
 <template>
-    <Head title="Explorer" />
+    <Head :title="$t(`Explorer`)" />
 
     <AuthenticatedLayout>
         <div class="space-y-5">
             <div>
-                <h1 class="text-2xl font-extrabold text-night">Explorer</h1>
-                <p class="text-sm text-muted">Parcourez les discussions par technologie.</p>
+                <h1 class="text-2xl font-extrabold text-night">{{ $t('Explorer') }}</h1>
+                <p class="text-sm text-muted">{{ $t('Parcourez les discussions par technologie.') }}</p>
             </div>
 
             <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
@@ -34,33 +34,33 @@ function apply(changes) {
                 >
                     <span class="absolute inset-x-0 top-0 h-1" :style="{ backgroundColor: cat.color }" />
                     <p class="text-sm font-bold leading-tight text-night">{{ cat.name }}</p>
-                    <p class="mt-1 text-xs text-muted">{{ cat.posts_count }} publication(s)</p>
+                    <p class="mt-1 text-xs text-muted">{{ $t('{n} publication(s)', { n: cat.posts_count }) }}</p>
                 </button>
             </div>
 
             <div class="flex flex-wrap items-center gap-3">
                 <select :value="filters.type ?? ''" @change="apply({ type: $event.target.value })" class="input !w-auto">
-                    <option value="">Tous les types</option>
-                    <option value="question">Questions</option>
-                    <option value="discussion">Discussions</option>
-                    <option value="resource">Ressources</option>
+                    <option value="">{{ $t('Tous les types') }}</option>
+                    <option value="question">{{ $t('Questions') }}</option>
+                    <option value="discussion">{{ $t('Discussions') }}</option>
+                    <option value="resource">{{ $t('Ressources') }}</option>
                 </select>
                 <select :value="filters.sort" @change="apply({ sort: $event.target.value })" class="input !w-auto">
-                    <option value="recent">Plus récentes</option>
-                    <option value="popular">Plus populaires</option>
-                    <option value="unanswered">Sans réponse</option>
+                    <option value="recent">{{ $t('Plus récentes') }}</option>
+                    <option value="popular">{{ $t('Plus populaires') }}</option>
+                    <option value="unanswered">{{ $t('Sans réponse') }}</option>
                 </select>
                 <Link v-if="filters.category || filters.type || filters.sort !== 'recent'" :href="route('explore')" class="text-sm font-semibold text-brand-600 hover:underline">
-                    Réinitialiser
+                    {{ $t('Réinitialiser') }}
                 </Link>
-                <span class="ml-auto text-sm text-muted">{{ posts.total }} résultat(s)</span>
+                <span class="ml-auto text-sm text-muted">{{ $t('{n} résultat(s)', { n: posts.total }) }}</span>
             </div>
 
             <div v-if="posts.data.length" class="space-y-4">
                 <PostCard v-for="post in posts.data" :key="post.id" :post="post" />
             </div>
-            <EmptyState v-else title="Aucune publication ici" text="Aucune discussion ne correspond à ces filtres pour le moment.">
-                <Link :href="route('posts.create')" class="btn-primary">Lancer la discussion</Link>
+            <EmptyState v-else :title="$t(`Aucune publication ici`)" :text="$t(`Aucune discussion ne correspond à ces filtres pour le moment.`)">
+                <Link :href="route('posts.create')" class="btn-primary">{{ $t('Lancer la discussion') }}</Link>
             </EmptyState>
 
             <Pagination :paginator="posts" />

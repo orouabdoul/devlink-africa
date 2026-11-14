@@ -26,10 +26,10 @@ class StorePostRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'title' => 'titre',
-            'content' => 'contenu',
-            'type' => 'type de publication',
-            'category_id' => 'catégorie',
+            'title' => __('titre'),
+            'content' => __('contenu'),
+            'type' => __('type de publication'),
+            'category_id' => __('catégorie'),
         ];
     }
 }

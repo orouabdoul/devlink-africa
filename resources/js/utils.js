@@ -1,8 +1,9 @@
-const rtf = new Intl.RelativeTimeFormat('fr', { numeric: 'auto' });
+import { t, currentLocale } from '@/i18n';
 
 /** « il y a 3 heures », « hier », etc. */
 export function timeAgo(date) {
     if (!date) return '';
+    const rtf = new Intl.RelativeTimeFormat(currentLocale(), { numeric: 'auto' });
     const seconds = Math.round((new Date(date).getTime() - Date.now()) / 1000);
     const units = [
         ['year', 31536000],
@@ -15,11 +16,11 @@ export function timeAgo(date) {
     for (const [unit, s] of units) {
         if (Math.abs(seconds) >= s) return rtf.format(Math.round(seconds / s), unit);
     }
-    return "à l'instant";
+    return t("à l'instant");
 }
 
 export function formatDate(date) {
-    return new Date(date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+    return new Date(date).toLocaleDateString(currentLocale() === 'en' ? 'en-GB' : 'fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 export function plural(n, singular, pluralForm = null) {

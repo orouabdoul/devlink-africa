@@ -26,11 +26,11 @@ const form = useForm({
     <section>
         <header>
             <h2 class="text-lg font-medium text-night">
-                Informations du compte
+                {{ $t('Informations du compte') }}
             </h2>
 
             <p class="mt-1 text-sm text-muted">
-                Votre nom affiché et votre adresse e-mail de connexion.
+                {{ $t('Votre nom affiché et votre adresse e-mail de connexion.') }}
             </p>
         </header>
 
@@ -39,7 +39,7 @@ const form = useForm({
             class="mt-6 space-y-6"
         >
             <div>
-                <InputLabel for="name" value="Nom complet" />
+                <InputLabel for="name" :value="$t(`Nom complet`)" />
 
                 <TextInput
                     id="name"
@@ -55,7 +55,7 @@ const form = useForm({
             </div>
 
             <div>
-                <InputLabel for="email" value="Adresse e-mail" />
+                <InputLabel for="email" :value="$t(`Adresse e-mail`)" />
 
                 <TextInput
                     id="email"
@@ -71,14 +71,14 @@ const form = useForm({
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
                 <p class="mt-2 text-sm text-night">
-                    Votre adresse e-mail n'est pas vérifiée.
+                    {{ $t("Votre adresse e-mail n'est pas vérifiée.") }}
                     <Link
                         :href="route('verification.send')"
                         method="post"
                         as="button"
                         class="rounded-md text-sm text-muted underline hover:text-night focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
                     >
-                        Renvoyer l'e-mail de vérification.
+                        {{ $t("Renvoyer l'e-mail de vérification.") }}
                     </Link>
                 </p>
 
@@ -86,12 +86,12 @@ const form = useForm({
                     v-show="status === 'verification-link-sent'"
                     class="mt-2 text-sm font-medium text-green-600"
                 >
-                    Un nouveau lien de vérification vous a été envoyé.
+                    {{ $t('Un nouveau lien de vérification vous a été envoyé.') }}
                 </div>
             </div>
 
             <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Enregistrer</PrimaryButton>
+                <PrimaryButton :disabled="form.processing">{{ $t('Enregistrer') }}</PrimaryButton>
 
                 <Transition
                     enter-active-class="transition ease-in-out"
@@ -103,7 +103,7 @@ const form = useForm({
                         v-if="form.recentlySuccessful"
                         class="text-sm text-muted"
                     >
-                        Enregistré.
+                        {{ $t('Enregistré.') }}
                     </p>
                 </Transition>
             </div>

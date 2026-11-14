@@ -6,6 +6,7 @@ use App\Http\Controllers\DeveloperProfileController;
 use App\Http\Controllers\ExploreController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
@@ -28,6 +29,9 @@ Route::get('/', function () {
         ],
     ]);
 })->name('home');
+
+// Choix de la langue (accessible aussi aux visiteurs)
+Route::post('/locale', LocaleController::class)->middleware('throttle:30,1')->name('locale.update');
 
 Route::middleware('auth')->group(function () {
     // Fil d'actualité & exploration

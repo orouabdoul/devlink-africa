@@ -12,7 +12,7 @@ defineProps({ developer: { type: Object, required: true } });
             <UserAvatar :user="developer" size="md" />
             <div class="min-w-0">
                 <p class="truncate font-bold text-night group-hover:text-brand-600">{{ developer.name }}</p>
-                <p class="truncate text-xs text-muted">{{ developer.profile?.headline || 'Développeur·se' }}</p>
+                <p class="truncate text-xs text-muted">{{ developer.profile?.headline || $t('Développeur·se') }}</p>
             </div>
         </div>
         <p v-if="developer.profile?.country" class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-slate-600">
@@ -23,6 +23,6 @@ defineProps({ developer: { type: Object, required: true } });
                 {{ skill }}
             </span>
         </div>
-        <p v-if="developer.posts_count !== undefined" class="mt-auto pt-3 text-xs text-muted">{{ developer.posts_count }} publication(s)</p>
+        <p v-if="developer.posts_count !== undefined" class="mt-auto pt-3 text-xs text-muted">{{ $t('{n} publication(s)', { n: developer.posts_count }) }}</p>
     </Link>
 </template>

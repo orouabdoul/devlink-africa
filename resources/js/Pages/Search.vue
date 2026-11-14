@@ -15,19 +15,19 @@ const suggestions = ['Laravel', 'Flutter', 'Mobile Money', 'Docker', 'React'];
 </script>
 
 <template>
-    <Head :title="q ? `Recherche : ${q}` : 'Recherche'" />
+    <Head :title="q ? $t('Recherche : {q}', { q }) : $t('Recherche')" />
 
     <AuthenticatedLayout>
         <div class="space-y-5">
             <form @submit.prevent="submit" class="card flex items-center gap-2 p-2" role="search">
                 <Search class="ml-2 h-5 w-5 text-slate-400" />
-                <input v-model="term" type="search" autofocus class="flex-1 border-0 text-base focus:ring-0" placeholder="Mot-clé : Laravel, Flutter, déploiement…" aria-label="Rechercher" />
-                <button class="btn-primary">Rechercher</button>
+                <input v-model="term" type="search" autofocus class="flex-1 border-0 text-base focus:ring-0" :placeholder="$t(`Mot-clé : Laravel, Flutter, déploiement…`)" :aria-label="$t(`Rechercher`)" />
+                <button class="btn-primary">{{ $t('Rechercher') }}</button>
             </form>
 
             <template v-if="!q">
                 <div class="card p-6">
-                    <p class="text-sm font-semibold text-night">Recherches suggérées</p>
+                    <p class="text-sm font-semibold text-night">{{ $t('Recherches suggérées') }}</p>
                     <div class="mt-3 flex flex-wrap gap-2">
                         <Link v-for="s in suggestions" :key="s" :href="route('search', { q: s })" class="rounded-full bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-brand-50 hover:text-brand-700">{{ s }}</Link>
                     </div>
@@ -36,7 +36,7 @@ const suggestions = ['Laravel', 'Flutter', 'Mobile Money', 'Docker', 'React'];
 
             <template v-else>
                 <section v-if="developers.length">
-                    <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-muted">Développeurs</h2>
+                    <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-muted">{{ $t('Développeurs') }}</h2>
                     <div class="flex gap-3 overflow-x-auto pb-1">
                         <Link v-for="d in developers" :key="d.id" :href="route('developers.show', d.id)" class="card flex min-w-[220px] items-center gap-3 p-3 hover:border-brand-200">
                             <UserAvatar :user="d" size="sm" />
@@ -49,12 +49,12 @@ const suggestions = ['Laravel', 'Flutter', 'Mobile Money', 'Docker', 'React'];
                 </section>
 
                 <section>
-                    <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-muted">{{ posts.total }} discussion(s) pour « {{ q }} »</h2>
+                    <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-muted">{{ $t('{n} discussion(s) pour « {q} »', { n: posts.total, q }) }}</h2>
                     <div v-if="posts.data.length" class="space-y-4">
                         <PostCard v-for="post in posts.data" :key="post.id" :post="post" />
                     </div>
-                    <EmptyState v-else title="Aucun résultat" :text="`Personne n'a encore parlé de « ${q} ». Et si vous posiez la question ?`">
-                        <Link :href="route('posts.create', { type: 'question' })" class="btn-primary">Poser la question</Link>
+                    <EmptyState v-else :title="$t('Aucun résultat')" :text="$t(`Personne n'a encore parlé de « {q} ». Et si vous posiez la question ?`, { q })">
+                        <Link :href="route('posts.create', { type: 'question' })" class="btn-primary">{{ $t('Poser la question') }}</Link>
                     </EmptyState>
                     <Pagination :paginator="posts" />
                 </section>

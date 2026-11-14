@@ -33,7 +33,7 @@ watch(
         >
             <CircleCheck class="h-5 w-5 text-green-400" />
             {{ message }}
-            <button @click="message = null" class="text-slate-400 hover:text-white" aria-label="Fermer"><X class="h-4 w-4" /></button>
+            <button @click="message = null" class="text-slate-400 hover:text-white" :aria-label="$t(`Fermer`)"><X class="h-4 w-4" /></button>
         </div>
     </Transition>
 </template>

@@ -1,4 +1,5 @@
 <script setup>
+import { t } from '@/i18n';
 import { ref, computed } from 'vue';
 import { useForm, usePage, Link } from '@inertiajs/vue3';
 import { Camera, X, Github, Linkedin, CircleAlert } from 'lucide-vue-next';
@@ -54,7 +55,7 @@ async function onFile(e) {
     photoError.value = '';
     if (!file) return;
     if (!file.type.startsWith('image/')) {
-        photoError.value = 'Choisissez une image (JPG, PNG ou WebP).';
+        photoError.value = t('Choisissez une image (JPG, PNG ou WebP).');
         return;
     }
     preparing.value = true;
@@ -64,7 +65,7 @@ async function onFile(e) {
         form.remove_avatar = false;
         preview.value = URL.createObjectURL(small);
     } catch {
-        photoError.value = 'Cette image ne peut pas être lue. Essayez une photo au format JPG ou PNG.';
+        photoError.value = t('Cette image ne peut pas être lue. Essayez une photo au format JPG ou PNG.');
     } finally {
         preparing.value = false;
     }
@@ -103,17 +104,17 @@ function submit() {
     <section>
         <header class="flex flex-wrap items-start justify-between gap-2">
             <div>
-                <h2 class="text-lg font-bold text-night">Profil développeur</h2>
-                <p class="mt-1 text-sm text-muted">Ce que la communauté voit sur votre page publique.</p>
+                <h2 class="text-lg font-bold text-night">{{ $t('Profil développeur') }}</h2>
+                <p class="mt-1 text-sm text-muted">{{ $t('Ce que la communauté voit sur votre page publique.') }}</p>
             </div>
-            <Link :href="route('developers.show', user.id)" class="text-sm font-semibold text-brand-600 hover:underline">Voir ma page publique →</Link>
+            <Link :href="route('developers.show', user.id)" class="text-sm font-semibold text-brand-600 hover:underline">{{ $t('Voir ma page publique →') }}</Link>
         </header>
 
         <form @submit.prevent="submit" class="mt-6 space-y-5">
             <div v-if="errorCount" id="profile-errors" class="flex gap-3 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
                 <CircleAlert class="h-5 w-5 shrink-0" />
                 <div>
-                    <p class="font-bold">Le profil n'a pas été enregistré.</p>
+                    <p class="font-bold">{{ $t("Le profil n'a pas été enregistré.") }}</p>
                     <ul class="mt-1 list-disc pl-4">
                         <li v-for="(msg, key) in form.errors" :key="key">{{ msg }}</li>
                     </ul>
@@ -124,26 +125,26 @@ function submit() {
                 <UserAvatar :user="avatarUser" size="lg" />
                 <div class="flex flex-wrap gap-2">
                     <label class="btn-secondary cursor-pointer !py-2">
-                        <Camera class="h-4 w-4" /> {{ preparing ? 'Préparation…' : 'Changer la photo' }}
+                        <Camera class="h-4 w-4" /> {{ preparing ? $t('Préparation…') : $t('Changer la photo') }}
                         <input type="file" accept="image/png,image/jpeg,image/webp" class="sr-only" @change="onFile" />
                     </label>
-                    <button v-if="avatarUser.avatar_url" type="button" @click="removeAvatar" class="btn-secondary !py-2 !text-rose-600">Retirer</button>
+                    <button v-if="avatarUser.avatar_url" type="button" @click="removeAvatar" class="btn-secondary !py-2 !text-rose-600">{{ $t('Retirer') }}</button>
                 </div>
             </div>
             <p v-if="photoError || form.errors.avatar" class="text-xs text-rose-600">{{ photoError || form.errors.avatar }}</p>
-            <p v-else-if="form.avatar" class="-mt-3 text-xs font-medium text-brand-600">Nouvelle photo prête — cliquez sur « Enregistrer le profil » pour la valider.</p>
-            <p v-else class="-mt-3 text-xs text-muted">JPG, PNG ou WebP. La photo est redimensionnée automatiquement.</p>
+            <p v-else-if="form.avatar" class="-mt-3 text-xs font-medium text-brand-600">{{ $t('Nouvelle photo prête — cliquez sur « Enregistrer le profil » pour la valider.') }}</p>
+            <p v-else class="-mt-3 text-xs text-muted">{{ $t('JPG, PNG ou WebP. La photo est redimensionnée automatiquement.') }}</p>
 
             <div class="grid gap-5 sm:grid-cols-2">
                 <div>
-                    <label for="headline" class="label">Titre professionnel</label>
-                    <input id="headline" v-model="form.headline" type="text" maxlength="120" class="input" placeholder="Ex. : Développeur full-stack Laravel" />
+                    <label for="headline" class="label">{{ $t('Titre professionnel') }}</label>
+                    <input id="headline" v-model="form.headline" type="text" maxlength="120" class="input" :placeholder="$t(`Ex. : Développeur full-stack Laravel`)" />
                     <p v-if="form.errors.headline" class="mt-1 text-xs text-rose-600">{{ form.errors.headline }}</p>
                 </div>
                 <div>
-                    <label for="country" class="label">Pays</label>
+                    <label for="country" class="label">{{ $t('Pays') }}</label>
                     <select id="country" v-model="form.country" class="input">
-                        <option value="">Sélectionnez votre pays</option>
+                        <option value="">{{ $t('Sélectionnez votre pays') }}</option>
                         <option v-for="c in countries" :key="c" :value="c">{{ c }}</option>
                     </select>
                     <p v-if="form.errors.country" class="mt-1 text-xs text-rose-600">{{ form.errors.country }}</p>
@@ -151,17 +152,17 @@ function submit() {
             </div>
 
             <div>
-                <label for="bio" class="label">Présentation</label>
-                <textarea id="bio" v-model="form.bio" rows="4" maxlength="1000" class="input" placeholder="Votre parcours, vos projets, ce que vous aimez construire…" />
+                <label for="bio" class="label">{{ $t('Présentation') }}</label>
+                <textarea id="bio" v-model="form.bio" rows="4" maxlength="1000" class="input" :placeholder="$t(`Votre parcours, vos projets, ce que vous aimez construire…`)" />
                 <div class="mt-1 flex justify-between text-xs"><span class="text-rose-600">{{ form.errors.bio }}</span><span class="text-muted">{{ form.bio.length }}/1000</span></div>
             </div>
 
             <div>
-                <label for="skills" class="label">Compétences techniques</label>
+                <label for="skills" class="label">{{ $t('Compétences techniques') }}</label>
                 <div class="flex flex-wrap items-center gap-2 rounded-xl border border-slate-200 bg-white p-2 focus-within:border-brand-500 focus-within:ring-1 focus-within:ring-brand-500">
                     <span v-for="(s, i) in form.skills" :key="s" class="inline-flex items-center gap-1 rounded-lg bg-brand-50 px-2 py-1 text-xs font-bold text-brand-700">
                         {{ s }}
-                        <button type="button" @click="form.skills.splice(i, 1)" :aria-label="`Retirer ${s}`"><X class="h-3 w-3" /></button>
+                        <button type="button" @click="form.skills.splice(i, 1)" :aria-label="$t('Retirer {s}', { s })"><X class="h-3 w-3" /></button>
                     </span>
                     <input
                         id="skills"
@@ -170,7 +171,7 @@ function submit() {
                         @keydown.,.prevent="addSkill()"
                         type="text"
                         class="min-w-[160px] flex-1 border-0 p-1 text-sm focus:ring-0"
-                        placeholder="Tapez puis Entrée"
+                        :placeholder="$t(`Tapez puis Entrée`)"
                     />
                 </div>
                 <div class="mt-2 flex flex-wrap gap-1.5">
@@ -190,20 +191,20 @@ function submit() {
             <div class="grid gap-5 sm:grid-cols-2">
                 <div>
                     <label for="github" class="label flex items-center gap-1.5"><Github class="h-4 w-4" /> GitHub</label>
-                    <input id="github" v-model="form.github_url" type="text" inputmode="url" class="input" placeholder="https://github.com/votre-pseudo" />
+                    <input id="github" v-model="form.github_url" type="text" inputmode="url" class="input" :placeholder="$t(`https://github.com/votre-pseudo`)" />
                     <p v-if="form.errors.github_url" class="mt-1 text-xs text-rose-600">{{ form.errors.github_url }}</p>
                 </div>
                 <div>
                     <label for="linkedin" class="label flex items-center gap-1.5"><Linkedin class="h-4 w-4" /> LinkedIn</label>
-                    <input id="linkedin" v-model="form.linkedin_url" type="text" inputmode="url" class="input" placeholder="https://www.linkedin.com/in/votre-profil" />
+                    <input id="linkedin" v-model="form.linkedin_url" type="text" inputmode="url" class="input" :placeholder="$t(`https://www.linkedin.com/in/votre-profil`)" />
                     <p v-if="form.errors.linkedin_url" class="mt-1 text-xs text-rose-600">{{ form.errors.linkedin_url }}</p>
                 </div>
             </div>
 
             <div class="flex items-center gap-3">
-                <button class="btn-primary" :disabled="form.processing || preparing">{{ form.processing ? 'Enregistrement…' : 'Enregistrer le profil' }}</button>
+                <button class="btn-primary" :disabled="form.processing || preparing">{{ form.processing ? $t('Enregistrement…') : $t('Enregistrer le profil') }}</button>
                 <Transition enter-from-class="opacity-0" leave-to-class="opacity-0" class="transition">
-                    <p v-if="form.recentlySuccessful" class="text-sm font-medium text-success">Profil enregistré.</p>
+                    <p v-if="form.recentlySuccessful" class="text-sm font-medium text-success">{{ $t('Profil enregistré.') }}</p>
                 </Transition>
             </div>
         </form>

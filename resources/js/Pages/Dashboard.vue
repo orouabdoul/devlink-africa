@@ -28,31 +28,31 @@ const tabs = [
 </script>
 
 <template>
-    <Head title="Fil d'actualité" />
+    <Head :title="$t(`Fil d'actualité`)" />
 
     <AuthenticatedLayout>
         <div class="space-y-5">
             <!-- Zone de publication -->
             <section class="card p-5">
-                <p class="text-sm text-muted">Bonjour {{ firstName }} 👋</p>
+                <p class="text-sm text-muted">{{ $t('Bonjour {name} 👋', { name: firstName }) }}</p>
                 <div class="mt-3 flex items-center gap-3">
                     <UserAvatar :user="user" size="md" />
                     <Link
                         :href="route('posts.create')"
                         class="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-400 transition hover:border-brand-200 hover:bg-white"
                     >
-                        Partagez quelque chose avec la communauté…
+                        {{ $t('Partagez quelque chose avec la communauté…') }}
                     </Link>
                 </div>
                 <div class="mt-3 flex flex-wrap gap-2 pl-14">
                     <Link :href="route('posts.create', { type: 'question' })" class="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-amber-700 hover:bg-amber-50">
-                        <CircleHelp class="h-4 w-4" /> Question
+                        <CircleHelp class="h-4 w-4" /> {{ $t('Question') }}
                     </Link>
                     <Link :href="route('posts.create', { type: 'discussion' })" class="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-brand-700 hover:bg-brand-50">
-                        <MessagesSquare class="h-4 w-4" /> Discussion
+                        <MessagesSquare class="h-4 w-4" /> {{ $t('Discussion') }}
                     </Link>
                     <Link :href="route('posts.create', { type: 'resource' })" class="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-green-700 hover:bg-green-50">
-                        <BookOpen class="h-4 w-4" /> Ressource
+                        <BookOpen class="h-4 w-4" /> {{ $t('Ressource') }}
                     </Link>
                 </div>
             </section>
@@ -71,8 +71,8 @@ const tabs = [
                     <span class="absolute inset-0 flex items-center justify-center text-[11px] font-bold text-brand-700">{{ profileCompletion }}%</span>
                 </div>
                 <div class="flex-1">
-                    <p class="text-sm font-bold text-night">Complétez votre profil développeur</p>
-                    <p class="text-xs text-slate-600">Ajoutez votre pays, vos compétences et vos liens pour être découvert par la communauté.</p>
+                    <p class="text-sm font-bold text-night">{{ $t('Complétez votre profil développeur') }}</p>
+                    <p class="text-xs text-slate-600">{{ $t('Ajoutez votre pays, vos compétences et vos liens pour être découvert par la communauté.') }}</p>
                 </div>
                 <ArrowRight class="h-5 w-5 text-brand-600" />
             </Link>
@@ -87,7 +87,7 @@ const tabs = [
                     class="flex-1 whitespace-nowrap rounded-lg px-3 py-2 text-center text-sm font-semibold transition"
                     :class="filters.type === tab.key ? 'bg-night text-white' : 'text-slate-600 hover:bg-slate-50'"
                 >
-                    {{ tab.label }}
+                    {{ $t(tab.label) }}
                 </Link>
             </div>
 
@@ -95,8 +95,8 @@ const tabs = [
             <div v-if="posts.data.length" class="space-y-4">
                 <PostCard v-for="post in posts.data" :key="post.id" :post="post" />
             </div>
-            <EmptyState v-else title="Aucune publication pour le moment" text="Soyez la première personne à lancer la discussion !">
-                <Link :href="route('posts.create')" class="btn-primary">Créer une publication</Link>
+            <EmptyState v-else :title="$t(`Aucune publication pour le moment`)" :text="$t(`Soyez la première personne à lancer la discussion !`)">
+                <Link :href="route('posts.create')" class="btn-primary">{{ $t('Créer une publication') }}</Link>
             </EmptyState>
 
             <Pagination :paginator="posts" />
@@ -108,21 +108,21 @@ const tabs = [
                 <div class="grid grid-cols-3 divide-x divide-slate-100 p-4 text-center">
                     <div>
                         <p class="text-xl font-extrabold text-night">{{ stats.members }}</p>
-                        <p class="text-[11px] font-medium text-muted">Membres</p>
+                        <p class="text-[11px] font-medium text-muted">{{ $t('Membres') }}</p>
                     </div>
                     <div>
                         <p class="text-xl font-extrabold text-night">{{ stats.posts }}</p>
-                        <p class="text-[11px] font-medium text-muted">Publications</p>
+                        <p class="text-[11px] font-medium text-muted">{{ $t('Publications') }}</p>
                     </div>
                     <div>
                         <p class="text-xl font-extrabold text-night">{{ stats.answers }}</p>
-                        <p class="text-[11px] font-medium text-muted">Réponses</p>
+                        <p class="text-[11px] font-medium text-muted">{{ $t('Réponses') }}</p>
                     </div>
                 </div>
             </section>
 
             <section class="card p-5">
-                <h3 class="flex items-center gap-2 text-sm font-bold text-night"><TrendingUp class="h-4 w-4 text-brand-600" /> Technologies populaires</h3>
+                <h3 class="flex items-center gap-2 text-sm font-bold text-night"><TrendingUp class="h-4 w-4 text-brand-600" /> {{ $t('Technologies populaires') }}</h3>
                 <ul class="mt-3 space-y-1">
                     <li v-for="cat in popularCategories" :key="cat.id">
                         <Link :href="route('explore', { category: cat.slug })" class="flex items-center justify-between rounded-lg px-2 py-1.5 text-sm hover:bg-slate-50">
@@ -133,23 +133,23 @@ const tabs = [
                         </Link>
                     </li>
                 </ul>
-                <Link :href="route('explore')" class="mt-2 block text-xs font-semibold text-brand-600 hover:underline">Toutes les catégories →</Link>
+                <Link :href="route('explore')" class="mt-2 block text-xs font-semibold text-brand-600 hover:underline">{{ $t('Toutes les catégories →') }}</Link>
             </section>
 
             <section class="card p-5">
-                <h3 class="flex items-center gap-2 text-sm font-bold text-night"><Sparkles class="h-4 w-4 text-brand-600" /> Développeurs à découvrir</h3>
+                <h3 class="flex items-center gap-2 text-sm font-bold text-night"><Sparkles class="h-4 w-4 text-brand-600" /> {{ $t('Développeurs à découvrir') }}</h3>
                 <ul class="mt-3 space-y-3">
                     <li v-for="dev in suggestedDevelopers" :key="dev.id">
                         <Link :href="route('developers.show', dev.id)" class="flex items-center gap-3 rounded-lg hover:opacity-80">
                             <UserAvatar :user="dev" size="sm" />
                             <div class="min-w-0">
                                 <p class="truncate text-sm font-semibold text-night">{{ dev.name }}</p>
-                                <p class="truncate text-xs text-muted">{{ dev.profile?.headline || dev.profile?.country || 'Membre' }}</p>
+                                <p class="truncate text-xs text-muted">{{ dev.profile?.headline || dev.profile?.country || $t('Membre') }}</p>
                             </div>
                         </Link>
                     </li>
                 </ul>
-                <Link :href="route('developers.index')" class="mt-3 block text-xs font-semibold text-brand-600 hover:underline">Voir tous les développeurs →</Link>
+                <Link :href="route('developers.index')" class="mt-3 block text-xs font-semibold text-brand-600 hover:underline">{{ $t('Voir tous les développeurs →') }}</Link>
             </section>
         </template>
     </AuthenticatedLayout>

@@ -20,6 +20,6 @@ class StoreCommentRequest extends FormRequest
 
     public function attributes(): array
     {
-        return ['content' => 'réponse'];
+        return ['content' => __('réponse')];
     }
 }

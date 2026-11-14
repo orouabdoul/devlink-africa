@@ -15,11 +15,11 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Mon profil" />
+    <Head :title="$t(`Mon profil`)" />
 
     <AuthenticatedLayout>
         <div class="mx-auto max-w-3xl space-y-6">
-            <h1 class="text-2xl font-extrabold text-night">Mon profil</h1>
+            <h1 class="text-2xl font-extrabold text-night">{{ $t('Mon profil') }}</h1>
 
             <div class="card p-6 sm:p-8">
                 <UpdateDeveloperProfileForm :profile="developerProfile" :countries="countries" />

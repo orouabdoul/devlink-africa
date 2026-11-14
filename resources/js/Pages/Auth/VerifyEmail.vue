@@ -23,17 +23,17 @@ const verificationLinkSent = computed(
 
 <template>
     <GuestLayout>
-        <Head title="Vérification de l'e-mail" />
+        <Head :title="$t(`Vérification de l'e-mail`)" />
 
         <div class="mb-4 text-sm text-muted">
-            Merci pour votre inscription ! Confirmez votre adresse en cliquant sur le lien que nous venons de vous envoyer.
+            {{ $t('Merci pour votre inscription ! Confirmez votre adresse en cliquant sur le lien que nous venons de vous envoyer.') }}
         </div>
 
         <div
             class="mb-4 text-sm font-medium text-green-600"
             v-if="verificationLinkSent"
         >
-            Un nouveau lien de vérification vient de vous être envoyé.
+            {{ $t('Un nouveau lien de vérification vient de vous être envoyé.') }}
         </div>
 
         <form @submit.prevent="submit">
@@ -42,7 +42,7 @@ const verificationLinkSent = computed(
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Renvoyer l'e-mail
+                    {{ $t("Renvoyer l'e-mail") }}
                 </PrimaryButton>
 
                 <Link
@@ -50,7 +50,7 @@ const verificationLinkSent = computed(
                     method="post"
                     as="button"
                     class="rounded-md text-sm text-muted underline hover:text-night focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
-                    >Déconnexion</Link
+                    >{{ $t('Déconnexion') }}</Link
                 >
             </div>
         </form>

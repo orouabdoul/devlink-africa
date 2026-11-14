@@ -23,10 +23,10 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Mot de passe oublié" />
+        <Head :title="$t(`Mot de passe oublié`)" />
 
         <div class="mb-4 text-sm text-muted">
-            Indiquez votre adresse e-mail : nous vous enverrons un lien pour choisir un nouveau mot de passe.
+            {{ $t('Indiquez votre adresse e-mail : nous vous enverrons un lien pour choisir un nouveau mot de passe.') }}
         </div>
 
         <div
@@ -38,7 +38,7 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="Adresse e-mail" />
+                <InputLabel for="email" :value="$t(`Adresse e-mail`)" />
 
                 <TextInput
                     id="email"
@@ -58,7 +58,7 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Envoyer le lien
+                    {{ $t('Envoyer le lien') }}
                 </PrimaryButton>
             </div>
         </form>

@@ -41,7 +41,7 @@ function toggle() {
         type="button"
         @click="toggle"
         :aria-pressed="isLiked"
-        :title="isLiked ? 'Retirer mon J\'aime' : 'J\'aime'"
+        :title="isLiked ? $t(`Retirer mon J'aime`) : $t(`J'aime`)"
         class="inline-flex items-center gap-1.5 rounded-full font-semibold transition"
         :class="[
             large ? 'px-4 py-2 text-sm ring-1' : 'px-2.5 py-1.5 text-sm',
@@ -50,6 +50,6 @@ function toggle() {
     >
         <Heart class="h-4 w-4 transition" :class="isLiked ? 'scale-110 fill-rose-500 text-rose-500' : ''" />
         <span>{{ total }}</span>
-        <span v-if="large">{{ isLiked ? 'Aimé' : "J'aime" }}</span>
+        <span v-if="large">{{ isLiked ? $t('Aimé') : $t("J'aime") }}</span>
     </button>
 </template>

@@ -55,22 +55,22 @@ class UpdateDeveloperProfileRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'headline' => 'titre professionnel',
-            'country' => 'pays',
-            'bio' => 'présentation',
-            'skills' => 'compétences',
-            'skills.*' => 'compétence',
-            'github_url' => 'lien GitHub',
-            'linkedin_url' => 'lien LinkedIn',
-            'avatar' => 'photo',
+            'headline' => __('titre professionnel'),
+            'country' => __('pays'),
+            'bio' => __('présentation'),
+            'skills' => __('compétences'),
+            'skills.*' => __('compétence'),
+            'github_url' => __('lien GitHub'),
+            'linkedin_url' => __('lien LinkedIn'),
+            'avatar' => __('photo'),
         ];
     }
 
     public function messages(): array
     {
         return [
-            'github_url.regex' => 'Le lien GitHub doit ressembler à https://github.com/votre-pseudo',
-            'linkedin_url.regex' => 'Le lien LinkedIn doit ressembler à https://www.linkedin.com/in/votre-profil',
+            'github_url.regex' => __('Le lien GitHub doit ressembler à https://github.com/votre-pseudo'),
+            'linkedin_url.regex' => __('Le lien LinkedIn doit ressembler à https://www.linkedin.com/in/votre-profil'),
         ];
     }
 }

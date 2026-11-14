@@ -27,6 +27,7 @@ La plateforme communautaire qui connecte les développeurs africains autour du p
 | Tableau de bord | Fil d'actualité, statistiques, technologies populaires, développeurs à découvrir, complétion du profil |
 | Sécurité | Policies Laravel (seul l'auteur modifie/supprime), validation serveur, limitation de débit sur publications/réponses/likes |
 | Responsive | Menu latéral sur ordinateur, barre de navigation en bas + bouton flottant sur mobile |
+| Langues | Interface en français (par défaut) et en anglais, sélecteur FR / EN dans l'en-tête ; messages d'erreur traduits |
 
 ## Stack
 
@@ -82,9 +83,23 @@ Avec `DEVLINK_SHOW_DEMO=true` dans `.env`, la page de connexion affiche un bouto
 php artisan test
 ```
 
-39 tests automatisés couvrent la checklist de soumission (inscription, profil, publication, catégories, commentaires, likes, autorisations, recherche, sécurité du Markdown).
+45 tests automatisés couvrent la checklist de soumission (inscription, profil, publication, catégories, commentaires, likes, autorisations, recherche, sécurité du Markdown, changement de langue).
 
-## Mise en ligne (hébergement mutualisé type cPanel)
+## Mise en ligne sur alwaysdata (offre gratuite, HTTPS inclus)
+
+1. Créez un compte sur alwaysdata.com (offre *Free*). Le nom du compte donne l'adresse du site : `https://<compte>.alwaysdata.net`.
+2. **Bases de données > MySQL** : créez une base (ex. `<compte>_devlink`) et notez le mot de passe de l'utilisateur MySQL.
+3. **Accès distant > SSH** : modifiez l'utilisateur et cochez la connexion par mot de passe.
+4. Envoyez l'archive prête à déployer : `scp devlink-africa-alwaysdata.zip <compte>@ssh-<compte>.alwaysdata.net:~/`
+5. Connectez-vous (`ssh <compte>@ssh-<compte>.alwaysdata.net` ou https://ssh-<compte>.alwaysdata.net), puis :
+   ```bash
+   unzip devlink-africa-alwaysdata.zip
+   bash devlink-africa/deploy/alwaysdata.sh
+   ```
+   Le script vérifie PHP, crée le `.env`, la base, les données de démo et les caches.
+6. **Web > Sites** : modifiez le site, type PHP (8.3), répertoire racine `/devlink-africa/public/`.
+
+## Autre option : mise en ligne (hébergement mutualisé type cPanel)
 
 1. **Base de données** : dans cPanel → *Bases de données MySQL*, créez une base, un utilisateur, et donnez-lui tous les droits.
 2. **Fichiers** : envoyez l'archive *prête à déployer* (elle contient déjà `vendor/` et `public/build/`) dans un dossier **hors** de `public_html`, par exemple `~/devlink-africa`.
@@ -154,4 +169,4 @@ resources/js/
 
 ## Après le concours (hors MVP)
 
-Messagerie privée, notifications, chat temps réel, recrutement, assistant IA, application mobile, marquage d'une « meilleure réponse », favoris.
+Autres langues (portugais, arabe, swahili), messagerie privée, notifications, chat temps réel, recrutement, assistant IA, application mobile, marquage d'une « meilleure réponse », favoris.
