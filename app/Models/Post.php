@@ -41,11 +41,26 @@ class Post extends Model
         return $this->hasMany(Like::class);
     }
 
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(Attachment::class)->orderBy('id');
+    }
+
+    protected static function booted(): void
+    {
+        // Les lignes partent en cascade dans la base ; on retire aussi les fichiers du disque.
+        static::deleting(function (Post $post) {
+            Attachment::purgeFiles(Attachment::query()
+                ->where('post_id', $post->id)
+                ->orWhereIn('comment_id', $post->comments()->select('id')));
+        });
+    }
+
     /** Chargement standard pour les listes : auteur, catégorie, compteurs, like de l'utilisateur courant. */
     public function scopeForFeed(Builder $query, ?User $viewer): Builder
     {
         return $query
-            ->with(['user:id,name', 'user.profile:id,user_id,avatar,country,headline', 'category'])
+            ->with(['user:id,name', 'user.profile:id,user_id,avatar,country,headline', 'category', 'attachments'])
             ->withCount(['comments', 'likes'])
             ->when($viewer, fn ($q) => $q->withExists([
                 'likes as liked' => fn ($l) => $l->where('user_id', $viewer->id),

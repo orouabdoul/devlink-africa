@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
+use App\Models\Attachment;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -39,7 +41,9 @@ class PostController extends Controller
 
     public function store(StorePostRequest $request): RedirectResponse
     {
-        $post = $request->user()->posts()->create($request->validated());
+        $post = $request->user()->posts()->create($request->safe()->only(['title', 'content', 'type', 'category_id']));
+        Attachment::storeImages($request->file('images', []), $request->user(), ['post_id' => $post->id]);
+        Attachment::storeDocuments($request->file('documents', []), $request->user(), ['post_id' => $post->id]);
 
         return redirect()->route('posts.show', $post)->with('success', __('Votre publication est en ligne.'));
     }
@@ -48,13 +52,13 @@ class PostController extends Controller
     {
         $user = $request->user();
 
-        $post->load(['user:id,name', 'user.profile', 'category'])
+        $post->load(['user:id,name', 'user.profile', 'category', 'attachments'])
             ->loadCount(['likes', 'comments'])
             ->append('content_html');
         $post->liked = $post->likes()->where('user_id', $user->id)->exists();
 
         $comments = $post->comments()
-            ->with(['user:id,name', 'user.profile:id,user_id,avatar,headline,country'])
+            ->with(['user:id,name', 'user.profile:id,user_id,avatar,headline,country', 'attachments'])
             ->oldest()
             ->get()
             ->map(fn (Comment $c) => [
@@ -88,6 +92,7 @@ class PostController extends Controller
 
         return Inertia::render('Posts/Edit', [
             'post' => $post->only(['id', 'title', 'content', 'type', 'category_id']),
+            'attachments' => $post->attachments()->get(),
             'categories' => Category::orderBy('name')->get(['id', 'name', 'color']),
             'types' => Post::TYPES,
         ]);
@@ -97,7 +102,28 @@ class PostController extends Controller
     {
         Gate::authorize('update', $post);
 
-        $post->update($request->validated());
+        // Seules les pièces jointes de CETTE publication peuvent être retirées.
+        $remove = $post->attachments()->whereIn('id', array_map('intval', $request->input('remove_images', [])))->get(['id', 'kind']);
+        $count = fn (string $kind) => $post->attachments()->where('kind', $kind)->count() - $remove->where('kind', $kind)->count();
+        if ($count('image') + count($request->file('images', [])) > Attachment::MAX_PER_POST) {
+            throw ValidationException::withMessages([
+                'images' => __('Une publication peut contenir au maximum :max captures.', ['max' => Attachment::MAX_PER_POST]),
+            ]);
+        }
+        if ($count('document') + count($request->file('documents', [])) > Attachment::MAX_DOCUMENTS_PER_POST) {
+            throw ValidationException::withMessages([
+                'documents' => __('Une publication peut contenir au maximum :max documents.', ['max' => Attachment::MAX_DOCUMENTS_PER_POST]),
+            ]);
+        }
+        $remove = $remove->pluck('id');
+
+        $post->update($request->safe()->only(['title', 'content', 'type', 'category_id']));
+        if ($remove->isNotEmpty()) {
+            Attachment::purgeFiles(Attachment::whereIn('id', $remove));
+            Attachment::whereIn('id', $remove)->delete();
+        }
+        Attachment::storeImages($request->file('images', []), $request->user(), ['post_id' => $post->id]);
+        Attachment::storeDocuments($request->file('documents', []), $request->user(), ['post_id' => $post->id]);
 
         return redirect()->route('posts.show', $post)->with('success', __('Publication mise à jour.'));
     }

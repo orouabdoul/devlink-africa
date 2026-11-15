@@ -28,7 +28,7 @@ function apply() {
             <form @submit.prevent="apply" class="card grid gap-3 p-4 sm:grid-cols-[1fr_1fr_auto]">
                 <select v-model="f.country" @change="apply" class="input" :aria-label="$t(`Pays`)">
                     <option value="">{{ $t('Tous les pays') }}</option>
-                    <option v-for="c in countries" :key="c" :value="c">{{ c }}</option>
+                    <option v-for="c in countries" :key="c" :value="c">{{ $t(c) }}</option>
                 </select>
                 <input v-model="f.skill" type="text" class="input" :placeholder="$t(`Compétence : Flutter, Python…`)" :aria-label="$t(`Compétence`)" />
                 <button class="btn-primary">{{ $t('Filtrer') }}</button>

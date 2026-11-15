@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCommentRequest;
+use App\Models\Attachment;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
@@ -12,9 +13,11 @@ class CommentController extends Controller
 {
     public function store(StoreCommentRequest $request, Post $post): RedirectResponse
     {
-        $comment = new Comment($request->validated());
+        $comment = new Comment($request->safe()->only(['content']));
         $comment->user()->associate($request->user());
         $post->comments()->save($comment);
+        Attachment::storeImages($request->file('images', []), $request->user(), ['comment_id' => $comment->id]);
+        Attachment::storeDocuments($request->file('documents', []), $request->user(), ['comment_id' => $comment->id]);
 
         return back()->with('success', __('Réponse publiée.'));
     }
@@ -23,7 +26,7 @@ class CommentController extends Controller
     {
         Gate::authorize('update', $comment);
 
-        $comment->update($request->validated());
+        $comment->update($request->safe()->only(['content']));
 
         return back()->with('success', __('Réponse modifiée.'));
     }

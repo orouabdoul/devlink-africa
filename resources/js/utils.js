@@ -32,3 +32,14 @@ export const POST_TYPES = {
     discussion: { label: 'Discussion', classes: 'bg-brand-50 text-brand-700 ring-brand-200' },
     resource: { label: 'Ressource', classes: 'bg-green-50 text-green-700 ring-green-200' },
 };
+
+export function formatSize(bytes) {
+    if (!bytes && bytes !== 0) return '';
+    const en = currentLocale() === 'en';
+    if (bytes < 1024) return `${bytes} ${en ? 'B' : 'o'}`;
+    if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} ${en ? 'KB' : 'Ko'}`;
+    const mb = (bytes / 1024 / 1024).toFixed(1);
+    return en ? `${mb} MB` : `${mb.replace('.', ',')} Mo`;
+}
+
+export const DOCUMENT_EXTENSIONS = ['pdf', 'docx', 'pptx', 'xlsx', 'odt', 'odp', 'ods', 'txt', 'md', 'csv', 'json', 'log'];

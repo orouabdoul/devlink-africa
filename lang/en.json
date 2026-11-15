@@ -20,5 +20,11 @@
     "lien LinkedIn": "LinkedIn link",
     "photo": "photo",
     "Le lien GitHub doit ressembler à https://github.com/votre-pseudo": "The GitHub link should look like https://github.com/your-username",
-    "Le lien LinkedIn doit ressembler à https://www.linkedin.com/in/votre-profil": "The LinkedIn link should look like https://www.linkedin.com/in/your-profile"
+    "Le lien LinkedIn doit ressembler à https://www.linkedin.com/in/votre-profil": "The LinkedIn link should look like https://www.linkedin.com/in/your-profile",
+    "captures": "screenshots",
+    "capture": "screenshot",
+    "Une publication peut contenir au maximum :max captures.": "A post can contain at most :max screenshots.",
+    "documents": "documents",
+    "document": "document",
+    "Une publication peut contenir au maximum :max documents.": "A post can contain at most :max documents."
 }

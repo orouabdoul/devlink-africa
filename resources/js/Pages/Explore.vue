@@ -33,7 +33,7 @@ function apply(changes) {
                     :class="filters.category === cat.slug ? '!border-brand-600 ring-2 ring-brand-600' : ''"
                 >
                     <span class="absolute inset-x-0 top-0 h-1" :style="{ backgroundColor: cat.color }" />
-                    <p class="text-sm font-bold leading-tight text-night">{{ cat.name }}</p>
+                    <p class="text-sm font-bold leading-tight text-night">{{ $t(cat.name) }}</p>
                     <p class="mt-1 text-xs text-muted">{{ $t('{n} publication(s)', { n: cat.posts_count }) }}</p>
                 </button>
             </div>

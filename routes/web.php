@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\DeveloperProfileController;
@@ -53,6 +54,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
     Route::post('/posts/{post}/like', LikeController::class)->middleware('throttle:60,1')->name('posts.like');
+
+    // Documents joints (PDF, Word…) : membres connectés uniquement
+    Route::get('/attachments/{attachment}/download', [AttachmentController::class, 'download'])->name('attachments.download');
+    Route::get('/attachments/{attachment}/view', [AttachmentController::class, 'view'])->name('attachments.view');
 
     // Développeurs
     Route::get('/developers', [DeveloperController::class, 'index'])->name('developers.index');

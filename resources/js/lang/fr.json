@@ -2,5 +2,8 @@
     "{n} publication(s)": "{n} publication|{n} publications",
     "{n} réponse(s)": "{n} réponse|{n} réponses",
     "{n} résultat(s)": "{n} résultat|{n} résultats",
-    "{n} discussion(s) pour « {q} »": "{n} discussion pour « {q} »|{n} discussions pour « {q} »"
+    "{n} discussion(s) pour « {q} »": "{n} discussion pour « {q} »|{n} discussions pour « {q} »",
+    "{n} capture(s) maximum.": "{n} capture maximum.|{n} captures maximum.",
+    "{n} document(s)": "{n} document|{n} documents",
+    "{n} document(s) maximum.": "{n} document maximum.|{n} documents maximum."
 }

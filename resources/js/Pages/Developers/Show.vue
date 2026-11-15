@@ -29,7 +29,7 @@ const p = props.developer.profile ?? {};
                     <h1 class="mt-4 text-2xl font-extrabold text-night">{{ developer.name }}</h1>
                     <p v-if="p.headline" class="text-base font-medium text-slate-600">{{ p.headline }}</p>
                     <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted">
-                        <span v-if="p.country" class="inline-flex items-center gap-1"><MapPin class="h-4 w-4 text-brand-600" />{{ p.country }}</span>
+                        <span v-if="p.country" class="inline-flex items-center gap-1"><MapPin class="h-4 w-4 text-brand-600" />{{ $t(p.country) }}</span>
                         <span class="inline-flex items-center gap-1"><CalendarDays class="h-4 w-4" />{{ $t('Membre depuis le {date}', { date: formatDate(developer.created_at) }) }}</span>
                     </div>
 

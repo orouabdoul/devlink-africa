@@ -145,7 +145,7 @@ function submit() {
                     <label for="country" class="label">{{ $t('Pays') }}</label>
                     <select id="country" v-model="form.country" class="input">
                         <option value="">{{ $t('Sélectionnez votre pays') }}</option>
-                        <option v-for="c in countries" :key="c" :value="c">{{ c }}</option>
+                        <option v-for="c in countries" :key="c" :value="c">{{ $t(c) }}</option>
                     </select>
                     <p v-if="form.errors.country" class="mt-1 text-xs text-rose-600">{{ form.errors.country }}</p>
                 </div>

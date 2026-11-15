@@ -27,6 +27,11 @@ La plateforme communautaire qui connecte les développeurs africains autour du p
 | Tableau de bord | Fil d'actualité, statistiques, technologies populaires, développeurs à découvrir, complétion du profil |
 | Sécurité | Policies Laravel (seul l'auteur modifie/supprime), validation serveur, limitation de débit sur publications/réponses/likes |
 | Responsive | Menu latéral sur ordinateur, barre de navigation en bas + bouton flottant sur mobile |
+| Captures d'écran | Jusqu'à 4 images par publication et 2 par réponse : bouton, glisser-déposer ou **Ctrl+V** ; réduites automatiquement, agrandissables au clic |
+| Documents | Jusqu'à 3 documents par publication et 1 par réponse (PDF, Word, Excel, PowerPoint, OpenDocument, TXT, Markdown, CSV, JSON, logs ; 5 Mo) : stockés hors du dossier public, réservés aux membres, PDF lisibles dans le navigateur |
+| Traduire | Bouton « Traduire » sur chaque publication et réponse : traduction intégrée de Chrome (le code reste intact), sinon Google Traduction |
+| Outils pour le code | Bouton « Insérer du code » avec choix du langage, bloc d'erreur, coloration syntaxique, bouton **Copier** sur chaque bloc |
+| Aide aux questions | Modèle « question d'erreur » (contexte, erreur, essais, environnement) et alerte si un mot de passe ou une clé secrète est collé, avec masquage automatique |
 | Langues | Interface en français (par défaut) et en anglais, sélecteur FR / EN dans l'en-tête ; messages d'erreur traduits |
 
 ## Stack
@@ -83,7 +88,7 @@ Avec `DEVLINK_SHOW_DEMO=true` dans `.env`, la page de connexion affiche un bouto
 php artisan test
 ```
 
-45 tests automatisés couvrent la checklist de soumission (inscription, profil, publication, catégories, commentaires, likes, autorisations, recherche, sécurité du Markdown, changement de langue).
+68 tests automatisés couvrent la checklist de soumission (inscription, profil, publication, catégories, commentaires, likes, autorisations, recherche, sécurité du Markdown, changement de langue, captures d'écran, documents).
 
 ## Mise en ligne sur alwaysdata (offre gratuite, HTTPS inclus)
 
@@ -97,6 +102,8 @@ php artisan test
    bash devlink-africa/deploy/alwaysdata.sh
    ```
    Le script vérifie PHP, crée le `.env`, la base, les données de démo et les caches.
+
+   **Mises à jour suivantes** : envoyez l'archive de mise à jour avec `scp`, puis `unzip -o devlink-africa-mise-a-jour.zip && bash devlink-africa/deploy/update.sh`.
 6. **Web > Sites** : modifiez le site, type PHP (8.3), répertoire racine `/devlink-africa/public/`.
 
 ## Autre option : mise en ligne (hébergement mutualisé type cPanel)

@@ -1,4 +1,5 @@
 <script setup>
+import { computed, ref } from 'vue';
 import { t } from '@/i18n';
 import { Head, Link, useForm, router, usePage } from '@inertiajs/vue3';
 import { ArrowLeft, Pencil, Trash2, MapPin, MessageCircle, Send } from 'lucide-vue-next';
@@ -8,14 +9,36 @@ import CategoryBadge from '@/Components/CategoryBadge.vue';
 import TypeBadge from '@/Components/TypeBadge.vue';
 import LikeButton from '@/Components/LikeButton.vue';
 import CommentCard from '@/Components/CommentCard.vue';
+import ImageGallery from '@/Components/ImageGallery.vue';
+import TranslateButton from '@/Components/TranslateButton.vue';
+import DocumentList from '@/Components/DocumentList.vue';
+import DocumentPicker from '@/Components/DocumentPicker.vue';
+import ImagePicker from '@/Components/ImagePicker.vue';
+import EditorToolbar from '@/Components/EditorToolbar.vue';
+import SecretWarning from '@/Components/SecretWarning.vue';
 import { timeAgo, formatDate } from '@/utils';
 
 const props = defineProps({ post: Object, comments: Array, can: Object, related: Array });
 const me = usePage().props.auth.user;
 
-const form = useForm({ content: '' });
+const form = useForm({ content: '', images: [], documents: [] });
+const docPicker = ref(null);
+const images = computed(() => props.post.attachments.filter((a) => a.kind !== 'document'));
+const documents = computed(() => props.post.attachments.filter((a) => a.kind === 'document'));
+const docError = () => form.errors.documents || Object.entries(form.errors).find(([k]) => k.startsWith('documents.'))?.[1] || '';
+const replyBox = ref(null);
+const postBody = ref(null);
+const picker = ref(null);
+function onPaste(e) {
+    const files = [...(e.clipboardData?.files ?? [])];
+    if (!files.length) return;
+    e.preventDefault();
+    picker.value.addFiles(files);
+}
+const imageError = () => form.errors.images || Object.entries(form.errors).find(([k]) => k.startsWith('images.'))?.[1] || '';
 function reply() {
     form.post(route('comments.store', props.post.id), {
+        forceFormData: true,
         preserveScroll: true,
         onSuccess: () => form.reset(),
     });
@@ -48,7 +71,7 @@ function destroy() {
                         <Link :href="route('developers.show', post.user.id)" class="text-sm font-bold text-night hover:text-brand-600">{{ post.user.name }}</Link>
                         <p class="flex flex-wrap items-center gap-x-2 text-xs text-muted">
                             <span v-if="post.user.profile?.headline">{{ post.user.profile.headline }}</span>
-                            <span v-if="post.user.profile?.country" class="inline-flex items-center gap-0.5"><MapPin class="h-3 w-3" />{{ post.user.profile.country }}</span>
+                            <span v-if="post.user.profile?.country" class="inline-flex items-center gap-0.5"><MapPin class="h-3 w-3" />{{ $t(post.user.profile.country) }}</span>
                             <span :title="formatDate(post.created_at)">{{ timeAgo(post.created_at) }}</span>
                             <span v-if="new Date(post.updated_at) - new Date(post.created_at) > 60000" class="italic">{{ $t('(modifié)') }}</span>
                         </p>
@@ -59,7 +82,10 @@ function destroy() {
                     </div>
                 </div>
 
-                <div class="prose-devlink mt-6" v-html="post.content_html" />
+                <div class="mt-4 flex justify-end"><TranslateButton :target="() => postBody" :watch-key="post.updated_at" /></div>
+                <div ref="postBody" class="prose-devlink mt-2" v-highlight v-html="post.content_html" />
+                <ImageGallery :images="images" class="mt-6" />
+                <DocumentList :documents="documents" class="mt-4" />
 
                 <div class="mt-8 flex items-center gap-3 border-t border-slate-100 pt-5">
                     <LikeButton :post-id="post.id" :liked="post.liked" :count="post.likes_count" large />
@@ -80,8 +106,12 @@ function destroy() {
                     <UserAvatar :user="me" size="sm" class="hidden sm:inline-flex" />
                     <div class="flex-1">
                         <label for="reply" class="sr-only">{{ $t('Votre réponse') }}</label>
-                        <textarea id="reply" v-model="form.content" rows="4" class="input" :placeholder="$t(`Écrivez une réponse utile… (Markdown pris en charge)`)" />
+                        <EditorToolbar v-model="form.content" :target="replyBox" />
+                        <textarea id="reply" ref="replyBox" v-model="form.content" @paste="onPaste" rows="4" class="input !rounded-t-none" :placeholder="$t(`Écrivez une réponse utile… (Markdown pris en charge)`)" />
                         <p v-if="form.errors.content" class="mt-1 text-xs text-rose-600">{{ form.errors.content }}</p>
+                        <SecretWarning v-model="form.content" class="mt-2" />
+                        <ImagePicker ref="picker" v-model="form.images" :max="2" compact :error="imageError()" class="mt-2" @other-files="docPicker.addFiles($event)" />
+                        <DocumentPicker ref="docPicker" v-model="form.documents" :max="1" :error="docError()" class="mt-2" />
                         <div class="mt-2 flex justify-end">
                             <button class="btn-primary" :disabled="form.processing || !form.content.trim()"><Send class="h-4 w-4" /> {{ $t('Répondre') }}</button>
                         </div>

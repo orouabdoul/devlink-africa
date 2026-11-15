@@ -16,7 +16,7 @@ defineProps({ developer: { type: Object, required: true } });
             </div>
         </div>
         <p v-if="developer.profile?.country" class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-slate-600">
-            <MapPin class="h-3.5 w-3.5 text-brand-600" />{{ developer.profile.country }}
+            <MapPin class="h-3.5 w-3.5 text-brand-600" />{{ $t(developer.profile.country) }}
         </p>
         <div v-if="developer.profile?.skills?.length" class="mt-3 flex flex-wrap gap-1.5">
             <span v-for="skill in developer.profile.skills.slice(0, 4)" :key="skill" class="rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-700">

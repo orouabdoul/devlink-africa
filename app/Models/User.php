@@ -41,6 +41,15 @@ class User extends Authenticatable
         static::created(function (User $user) {
             $user->profile()->create();
         });
+
+        // Suppression du compte : retire du disque ses captures et celles des réponses à ses publications.
+        static::deleting(function (User $user) {
+            $postIds = $user->posts()->select('id');
+            Attachment::purgeFiles(Attachment::query()
+                ->where('user_id', $user->id)
+                ->orWhereIn('post_id', $postIds)
+                ->orWhereIn('comment_id', Comment::whereIn('post_id', $postIds)->select('id')));
+        });
     }
 
     public function profile(): HasOne

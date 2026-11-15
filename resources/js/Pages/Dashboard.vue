@@ -127,7 +127,7 @@ const tabs = [
                     <li v-for="cat in popularCategories" :key="cat.id">
                         <Link :href="route('explore', { category: cat.slug })" class="flex items-center justify-between rounded-lg px-2 py-1.5 text-sm hover:bg-slate-50">
                             <span class="flex items-center gap-2 font-medium text-slate-700">
-                                <span class="h-2.5 w-2.5 rounded-full" :style="{ backgroundColor: cat.color }" />{{ cat.name }}
+                                <span class="h-2.5 w-2.5 rounded-full" :style="{ backgroundColor: cat.color }" />{{ $t(cat.name) }}
                             </span>
                             <span class="text-xs text-muted">{{ cat.posts_count }}</span>
                         </Link>
@@ -144,7 +144,7 @@ const tabs = [
                             <UserAvatar :user="dev" size="sm" />
                             <div class="min-w-0">
                                 <p class="truncate text-sm font-semibold text-night">{{ dev.name }}</p>
-                                <p class="truncate text-xs text-muted">{{ dev.profile?.headline || dev.profile?.country || $t('Membre') }}</p>
+                                <p class="truncate text-xs text-muted">{{ dev.profile?.headline || (dev.profile?.country && $t(dev.profile.country)) || $t('Membre') }}</p>
                             </div>
                         </Link>
                     </li>

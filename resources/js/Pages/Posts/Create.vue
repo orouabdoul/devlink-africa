@@ -6,8 +6,8 @@ import PostForm from '@/Components/PostForm.vue';
 
 const props = defineProps({ categories: Array, types: Object, preset: Object });
 
-const form = useForm({ title: '', type: props.preset.type, category_id: null, content: '' });
-const submit = () => form.post(route('posts.store'));
+const form = useForm({ title: '', type: props.preset.type, category_id: null, content: '', images: [], documents: [], remove_images: [] });
+const submit = () => form.post(route('posts.store'), { forceFormData: true });
 </script>
 
 <template>

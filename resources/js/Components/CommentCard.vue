@@ -4,6 +4,9 @@ import { ref } from 'vue';
 import { Link, useForm, router } from '@inertiajs/vue3';
 import { Pencil, Trash2 } from 'lucide-vue-next';
 import UserAvatar from '@/Components/UserAvatar.vue';
+import ImageGallery from '@/Components/ImageGallery.vue';
+import TranslateButton from '@/Components/TranslateButton.vue';
+import DocumentList from '@/Components/DocumentList.vue';
 import { timeAgo } from '@/utils';
 
 const props = defineProps({
@@ -12,6 +15,7 @@ const props = defineProps({
 });
 
 const editing = ref(false);
+const body = ref(null);
 const form = useForm({ content: props.comment.content });
 
 function save() {
@@ -56,7 +60,12 @@ function destroy() {
                     <button type="button" class="btn-secondary !py-1.5" @click="editing = false; form.reset()">{{ $t('Annuler') }}</button>
                 </div>
             </form>
-            <div v-else class="prose-devlink prose-sm mt-1 prose-p:my-1" v-html="comment.content_html" />
+            <template v-else>
+                <div ref="body" class="prose-devlink prose-sm mt-1 prose-p:my-1" v-highlight v-html="comment.content_html" />
+                <TranslateButton :target="() => body" :watch-key="comment.updated_at" class="-ml-2 mt-1" />
+            </template>
+            <ImageGallery :images="(comment.attachments ?? []).filter((a) => a.kind !== 'document')" size="sm" class="mt-2" />
+            <DocumentList :documents="(comment.attachments ?? []).filter((a) => a.kind === 'document')" compact class="mt-2" />
         </div>
     </div>
 </template>

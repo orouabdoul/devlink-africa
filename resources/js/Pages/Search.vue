@@ -42,7 +42,7 @@ const suggestions = ['Laravel', 'Flutter', 'Mobile Money', 'Docker', 'React'];
                             <UserAvatar :user="d" size="sm" />
                             <div class="min-w-0">
                                 <p class="truncate text-sm font-bold text-night">{{ d.name }}</p>
-                                <p class="truncate text-xs text-muted">{{ d.profile?.headline || d.profile?.country }}</p>
+                                <p class="truncate text-xs text-muted">{{ d.profile?.headline || $t(d.profile?.country ?? '') }}</p>
                             </div>
                         </Link>
                     </div>
